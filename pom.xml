@@ -1,8 +1,8 @@
 
 <project>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>Project</groupId>
-  <artifactId>Project</artifactId>
+  <groupId>sample</groupId>
+  <artifactId>sample</artifactId>
   <version>1.0</version>
   <repositories>
     <repository>
