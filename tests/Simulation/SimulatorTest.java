@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class SimulatorTest {
     @org.junit.Test
     public void testGetMST(){
-        //TEST 1 See TestSimulator.png
+        //TEST 1 See SimulatorTest.png
         State s = new State();
         Simulator sim = new Simulator(s);
         Node n1 = new Node(1);
