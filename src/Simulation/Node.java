@@ -12,9 +12,9 @@ public class Node {
     public final int nodeID;
 
     public Node(JFXButton b){
+        btn = b;
         x = btn.getLayoutX();
         y = btn.getLayoutY();
-        btn = b;
         nodeID=COUNTER++;
     }
     public int getID(){return nodeID;}
