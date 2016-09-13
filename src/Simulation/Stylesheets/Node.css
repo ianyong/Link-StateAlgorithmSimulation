@@ -11,5 +11,5 @@
 }
 
 .node .jfx-rippler{
-    -fx-rippler-radius: 0px;
+    /*-fx-rippler-radius: 0px;*/
 }
