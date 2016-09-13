@@ -8,7 +8,7 @@ public class Controller {
     JFXButton buttonAddRouter;
 
     @FXML
-    void setButtonAddRouter(){
-
+    private void addNode(){
+        //TODO
     }
 }
