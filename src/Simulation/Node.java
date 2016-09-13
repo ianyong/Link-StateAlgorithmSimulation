@@ -10,7 +10,11 @@ public class Node {
     protected double x, y;
     private JFXButton btn;
     public final int nodeID;
-
+    public Node (int nodeID){
+        System.out.println("FOR DEBUG USE ONLY NOT FOR PRODUCTION");
+        this.nodeID = nodeID;
+        x=y=0;
+    }
     public Node(JFXButton b){
         btn = b;
         x = btn.getLayoutX();

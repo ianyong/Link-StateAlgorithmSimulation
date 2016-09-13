@@ -50,5 +50,7 @@ public class Route implements Comparator<Route>,Comparable<Route>{
         if(!Route.class.isAssignableFrom(o.getClass())) return false;
         return this.getID()==((Route)o).getID();
     }
-
+    public String toString(){
+        return "Route "+routeID+" btw nodes "+n1.getID()+"&"+n2.getID()+", weight="+weight;
+    }
 }

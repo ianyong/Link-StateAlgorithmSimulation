@@ -14,6 +14,10 @@ public class Simulator {
         nodes.add(n);
     }
 
+    public void addRoute(Route r){
+        routes.add(r);
+    }
+
     public ArrayList<Route> getMST(Node origin){
         for(Route r:routes) r.updateXY();//In case sth changed.
         ArrayList<Route> mst = new ArrayList<Route>();
@@ -34,12 +38,12 @@ public class Simulator {
             for(Route r:nextRoutes){
                 if(unfoundNodes.contains(r.n1)){
                     nextNode=r.n1;
-                    mst.add(r);
+                    if(!mst.contains(r))mst.add(r); //KLUDGE
                     break;
                 }
                 else if(unfoundNodes.contains(r.n2)){
                     nextNode=r.n2;
-                    mst.add(r);
+                    if(!mst.contains(r))mst.add(r); //KLUDGE
                     break;
                 }
             }
