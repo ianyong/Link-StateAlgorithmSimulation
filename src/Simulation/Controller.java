@@ -85,6 +85,7 @@ public class Controller {
             public void handle(MouseEvent mouseEvent) {
                 if(mouseEvent.getButton().equals(MouseButton.SECONDARY)){
                     state.removeNode(Integer.parseInt(btn.getText()));
+                    pane.getChildren().remove(btn);
                 }
             }
         });
