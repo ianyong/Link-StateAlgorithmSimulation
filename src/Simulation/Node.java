@@ -9,9 +9,9 @@ public class Node {
     protected double x, y;
     private JFXButton btn;
 
-    public Node(double x, double y, JFXButton b){
-        this.x = x;
-        this.y = y;
-        btn = b;
+    public Node(JFXButton btn){
+        this.btn = btn;
+        x = btn.getLayoutX();
+        y = btn.getLayoutY();
     }
 }
