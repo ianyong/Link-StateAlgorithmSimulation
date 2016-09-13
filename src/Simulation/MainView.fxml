@@ -23,7 +23,7 @@
    <center>
       <Pane prefHeight="300.0" prefWidth="500.0" BorderPane.alignment="CENTER">
          <children>
-            <JFXButton layoutX="176.0" layoutY="133.0" prefHeight="0.0" prefWidth="52.0" styleClass="node" stylesheets="@Stylesheets/Node.css" text="Test" />
+            <JFXButton layoutX="188.0" layoutY="117.0" prefHeight="83.0" prefWidth="85.0" styleClass="node" stylesheets="@Stylesheets/Node.css" text="Test" />
          </children></Pane>
    </center>
 </BorderPane>

@@ -7,4 +7,9 @@
     -fx-border-color:WHITE;
     -fx-border-radius: 50px;
     -fx-border-width: 4px;
+    -fx-button-type: RAISED;
+}
+
+.node .jfx-rippler{
+    -fx-rippler-radius: 0px;
 }
