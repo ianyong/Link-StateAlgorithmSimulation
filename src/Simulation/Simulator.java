@@ -24,7 +24,10 @@ public class Simulator {
         Node currNode = origin;
         for(Route r:unusedRoutes)
             if(r.has(currNode))nextRoutes.add(r);
-        state.removeRoute(currNode,null);
+        for(int i=0;i<unusedRoutes.size();){                                   //0 means a wildcard, i.e. n,0 will remove all routes with n
+            if(unusedRoutes.get(i).has(currNode.getID())&&unusedRoutes.get(i).has(0)) unusedRoutes.remove(i);
+            else i++;
+        }
         while(unfoundNodes.size()!=0){
             //Find next node
             Collections.sort(nextRoutes);
@@ -54,7 +57,7 @@ public class Simulator {
             for(Route r:unusedRoutes)
                 if(r.has(currNode))nextRoutes.add(r);
             for(int i=0;i<unusedRoutes.size();){                                   //0 means a wildcard, i.e. n,0 will remove all routes with n
-                if(unusedRoutes.get(i).has(currNode.getID())&&unusedRoutes.get(i).has(null)) unusedRoutes.remove(i);
+                if(unusedRoutes.get(i).has(currNode.getID())&&unusedRoutes.get(i).has(0)) unusedRoutes.remove(i);
                 else i++;
             }
         }
