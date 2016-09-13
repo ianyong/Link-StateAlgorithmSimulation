@@ -9,7 +9,8 @@ public class SimulatorTest {
     @org.junit.Test
     public void testGetMST(){
         //TEST 1 See TestSimulator.png
-        Simulator s = new Simulator();
+        State s = new State();
+        Simulator sim = new Simulator(s);
         Node n1 = new Node(1);
         s.addNode(n1);
         Node n2 = new Node(2);
@@ -34,7 +35,7 @@ public class SimulatorTest {
         s.addRoute(r5);
         Route r6 = new Route(n4,n5,6.0);
         s.addRoute(r6);
-        ArrayList<Route> mst = s.getMST(n3);
+        ArrayList<Route> mst = sim.getMST(n3);
         for (Route r:mst)
             ;//System.out.println(r.toString());
         //System.out.println(mst.size());
@@ -48,7 +49,7 @@ public class SimulatorTest {
         //Test 2 - A random unconnected node shall not affect mst
         Node n7 = new Node(7);
         s.addNode(n7);
-        mst = s.getMST(n1);
+        mst = sim.getMST(n1);
         for (Route r:mst)
             ;//System.out.println(r.toString());
         assert(mst.contains(r1));
@@ -71,17 +72,17 @@ public class SimulatorTest {
         s.addRoute(rA);
         s.addRoute(rB);
         s.addRoute(rC);
-        mst = s.getMST(n8);
+        mst = sim.getMST(n8);
         assert(mst.contains(rA));
         assert(mst.contains(rB));
         assert(!mst.contains(rC));
         System.out.println("Test 3.1 pass");
-        mst = s.getMST(n9);
+        mst = sim.getMST(n9);
         assert(mst.contains(rA));
         assert(!mst.contains(rB));
         assert(mst.contains(rC));
         System.out.println("Test 3.2 pass");
-        mst = s.getMST(n10);
+        mst = sim.getMST(n10);
         assert(!mst.contains(rA));
         assert(mst.contains(rB));
         assert(mst.contains(rC));

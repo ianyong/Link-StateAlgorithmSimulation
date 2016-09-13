@@ -7,28 +7,24 @@ import java.util.Collections;
  * Created by yusiang on 13/9/16.
  */
 public class Simulator {
-    private ArrayList<Node> nodes = new ArrayList<Node>();
-    private ArrayList<Route> routes = new ArrayList<Route>();
 
-    public void addNode(Node n){
-        nodes.add(n);
-    }
+    private State state;
 
-    public void addRoute(Route r){
-        routes.add(r);
+    public Simulator(State s){
+        state = s;
     }
 
     public ArrayList<Route> getMST(Node origin){
-        for(Route r:routes) r.updateXY();//In case sth changed.
+        state.updateRoutes();//In case sth changed.
         ArrayList<Route> mst = new ArrayList<Route>();
-        ArrayList<Route> unusedRoutes = new ArrayList<Route>(routes);
+        ArrayList<Route> unusedRoutes = new ArrayList<Route>(state.getRoutes());
         ArrayList<Route> nextRoutes = new ArrayList<Route>();
-        ArrayList<Node> unfoundNodes = new ArrayList<Node>(nodes);//Copy of nodes. Will remove once connected.
-        if(!nodes.contains(origin)) return null;//WTF
+        ArrayList<Node> unfoundNodes = new ArrayList<Node>(state.getNodes());//Copy of nodes. Will remove once connected.
+        if(!state.getNodes().contains(origin)) return null;//WTF
         Node currNode = origin;
         for(Route r:unusedRoutes)
             if(r.has(currNode))nextRoutes.add(r);
-        removeRoute(unusedRoutes,currNode,null);
+        state.removeRoute(currNode,null);
         while(unfoundNodes.size()!=0){
             //Find next node
             Collections.sort(nextRoutes);
@@ -49,40 +45,22 @@ public class Simulator {
             }
             if (nextNode==null) break;//No matches. Tree is not connected
             //Update currNode
-            removeNode(unfoundNodes,currNode);
+            for(int i=0;i<unfoundNodes.size();){
+                if(unfoundNodes.get(i).getID()==currNode.getID()) unfoundNodes.remove(i);
+                else i++;
+            }
             currNode = nextNode;
             //Update nextRoutes & unusedRoutes
             for(Route r:unusedRoutes)
                 if(r.has(currNode))nextRoutes.add(r);
-            removeRoute(unusedRoutes,currNode,null);
+            for(int i=0;i<unusedRoutes.size();){                                   //0 means a wildcard, i.e. n,0 will remove all routes with n
+                if(unusedRoutes.get(i).has(currNode.getID())&&unusedRoutes.get(i).has(null)) unusedRoutes.remove(i);
+                else i++;
+            }
         }
         ;
 
         return mst;
 
     }
-    private void removeNode(ArrayList<Node> l, Node n){ removeNode(l,n.getID());}
-    private void removeNode(ArrayList<Node> l, int nodeID){
-        for(int i=0;i<l.size();){
-            if(l.get(i).getID()==nodeID) l.remove(i);
-            else i++;
-        }
-    }
-    private void removeRoute(ArrayList<Route> l, Route r){removeRoute(l,r.getID());}
-    private void removeRoute(ArrayList<Route> l, int routeID){
-        for(int i=0;i<l.size();){
-            if(l.get(i).getID()==routeID) l.remove(i);
-            else i++;
-        }
-    }
-    private void removeRoute(ArrayList<Route> l,Node n1,Node n2){
-        removeRoute(l,n1==null?0:n1.getID(),n2==null?0:n2.getID());
-    }
-    private void removeRoute(ArrayList<Route> l, int n1,int n2){    //Removes a route with n1 and n2
-        for(int i=0;i<l.size();){                                   //0 means a wildcard, i.e. n,0 will remove all routes with n
-            if(l.get(i).has(n1)&&l.get(i).has(n2)) l.remove(i);
-            else i++;
-        }
-    }
-
 }
