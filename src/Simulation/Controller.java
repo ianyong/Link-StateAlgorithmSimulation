@@ -2,12 +2,10 @@ package Simulation;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTabPane;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Tab;
-import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -17,8 +15,6 @@ public class Controller {
     private static int COUNTER = 1;
     private boolean edit = false;
     private State state = new State();
-    @FXML
-    private JFXButton buttonAddRouter;
     @FXML
     private Pane pane;
     @FXML
@@ -42,7 +38,8 @@ public class Controller {
 
     @FXML
     private void clearAll(){
-        //TODO
+        pane.getChildren().clear();
+        state = new State();
     }
 
     @FXML

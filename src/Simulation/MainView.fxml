@@ -42,7 +42,7 @@
                         <HBox spacing="10.0" style="-fx-background-color: #3F51B5;" BorderPane.alignment="CENTER">
                            <children>
                               <JFXButton onAction="#setHomeTab" style="-fx-background-color: white;" text="Back" />
-                              <JFXButton fx:id="buttonAddNode" onAction="#addNode" style="-fx-background-color: white;" text="Add Router" />
+                              <JFXButton onAction="#addNode" style="-fx-background-color: white;" text="Add Router" />
                               <JFXButton onAction="#clearAll" style="-fx-background-color: white;" text="Clear All" />
                            </children>
                            <BorderPane.margin>
