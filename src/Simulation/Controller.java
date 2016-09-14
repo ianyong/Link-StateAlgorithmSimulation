@@ -1,10 +1,12 @@
 package Simulation;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTabPane;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
+import javafx.scene.control.Tab;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -13,11 +15,16 @@ import javafx.scene.layout.Pane;
 public class Controller {
 
     private static int COUNTER = 1;
+    private boolean edit = false;
     private State state = new State();
     @FXML
     private JFXButton buttonAddRouter;
     @FXML
     private Pane pane;
+    @FXML
+    private JFXTabPane hiddenTabPane;
+    @FXML
+    private Tab tabHome, tabEdit;
 
     @FXML
     private void addNode(){
@@ -36,6 +43,18 @@ public class Controller {
     @FXML
     private void clearAll(){
         //TODO
+    }
+
+    @FXML
+    private void setEditTab(){
+        hiddenTabPane.getSelectionModel().select(tabEdit);
+        edit = true;
+    }
+
+    @FXML
+    private void setHomeTab(){
+        hiddenTabPane.getSelectionModel().select(tabHome);
+        edit = false;
     }
 
     private void makeDraggable(final JFXButton btn){
@@ -57,25 +76,31 @@ public class Controller {
         });*/
         btn.setOnMouseDragged(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent mouseEvent) {
-                if(mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
-                    if (!dragDelta.dragStarted) { //hack workaround
-                        dragDelta.x = btn.getLayoutX() - mouseEvent.getSceneX();
-                        dragDelta.y = btn.getLayoutY() - mouseEvent.getSceneY();
-                        dragDelta.dragStarted = true;
+                if(edit) {
+                    if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+                        if (!dragDelta.dragStarted) { //hack workaround
+                            dragDelta.x = btn.getLayoutX() - mouseEvent.getSceneX();
+                            dragDelta.y = btn.getLayoutY() - mouseEvent.getSceneY();
+                            dragDelta.dragStarted = true;
+                        }
+                        btn.setLayoutX(mouseEvent.getSceneX() + dragDelta.x);
+                        btn.setLayoutY(mouseEvent.getSceneY() + dragDelta.y);
                     }
-                    btn.setLayoutX(mouseEvent.getSceneX() + dragDelta.x);
-                    btn.setLayoutY(mouseEvent.getSceneY() + dragDelta.y);
                 }
             }
         });
         btn.setOnMouseEntered(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent mouseEvent) {
-                btn.setCursor(Cursor.HAND);
+                if(edit) {
+                    btn.setCursor(Cursor.HAND);
+                }
             }
         });
         btn.setOnMouseMoved(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent mouseEvent) {
-                dragDelta.dragStarted = false; //hack workaround
+                if(edit) {
+                    dragDelta.dragStarted = false; //hack workaround
+                }
             }
         });
     }
@@ -83,9 +108,11 @@ public class Controller {
     private void makeRightClickDeletable(final JFXButton btn){
         btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent mouseEvent) {
-                if(mouseEvent.getButton().equals(MouseButton.SECONDARY)){
-                    state.removeNode(Integer.parseInt(btn.getText()));
-                    pane.getChildren().remove(btn);
+                if(edit) {
+                    if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
+                        state.removeNode(Integer.parseInt(btn.getText()));
+                        pane.getChildren().remove(btn);
+                    }
                 }
             }
         });

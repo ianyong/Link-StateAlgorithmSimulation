@@ -1,0 +1,6 @@
+.jfx-tab-pane {
+    -fx-tab-max-height: 0 ;
+}
+.jfx-tab-pane .jfx-tab-header-area {
+    visibility: hidden ;
+}
