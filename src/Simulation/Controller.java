@@ -18,6 +18,9 @@ import javafx.scene.shape.Line;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+
 public class Controller implements Initializable{
 
     private static int COUNTER = 1;
@@ -88,8 +91,8 @@ public class Controller implements Initializable{
     private void addNode(){
         JFXButton btn = new JFXButton(String.valueOf(COUNTER++));
         btn.getStyleClass().add("node");
-        btn.setLayoutX(200);
-        btn.setLayoutY(200);
+        btn.setLayoutX(pane.getWidth() / 2 - 25); //getWidth() and getHeight() for btn return 0.0 here for some reason
+        btn.setLayoutY(pane.getHeight() / 2 - 25);
 
         makeDraggable(btn);
         makeRightClickDeletableAndLinkable(btn);
@@ -160,8 +163,8 @@ public class Controller implements Initializable{
                             dragDelta.y = btn.getLayoutY() - mouseEvent.getSceneY();
                             dragDelta.dragStarted = true;
                         }
-                        btn.setLayoutX(mouseEvent.getSceneX() + dragDelta.x);
-                        btn.setLayoutY(mouseEvent.getSceneY() + dragDelta.y);
+                        btn.setLayoutX(boundaryCorrectionX(mouseEvent.getSceneX() + dragDelta.x));
+                        btn.setLayoutY(boundaryCorrectionY(mouseEvent.getSceneY() + dragDelta.y));
                         state.getNode(Integer.parseInt(btn.getText())).updateXY();
                         state.updateRoutes(Integer.parseInt(btn.getText()));
                     }
@@ -182,6 +185,14 @@ public class Controller implements Initializable{
                 }
             }
         });
+    }
+
+    private double boundaryCorrectionX(double d){
+        return max(0, min(d, pane.getWidth() - 50));
+    }
+
+    private double boundaryCorrectionY(double d){
+        return max(0, min(d, pane.getHeight() - 50));
     }
 
     private void makeRightClickDeletableAndLinkable(final JFXButton btn){
