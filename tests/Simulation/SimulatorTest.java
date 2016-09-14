@@ -5,6 +5,9 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Map;
 
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertNull;
+
 /**
  * Created by yusiang on 13/9/16.
  */
@@ -97,6 +100,32 @@ public class SimulatorTest {
         State s = new State();
         Simulator sim = new Simulator(s);
         Map<Node,ArrayList<Route>> map;
+        Node n1 = new Node(1);
+        s.addNode(n1);
+        Node n2 = new Node(2);
+        s.addNode(n2);
+        Node n3 = new Node(3);
+        s.addNode(n3);
+        Node n4 = new Node(4);
+        s.addNode(n4);
+        Node n5 = new Node(5);
+        s.addNode(n5);
+        Node n6 = new Node(6);
+        s.addNode(n6);
+        Node n7 = new Node(7);
+        s.addNode(n7);
+        Route r1 = new Route(n1,n2,1.0);
+        s.addRoute(r1);
+        Route r2 = new Route(n1,n5,2.0);
+        s.addRoute(r2);
+        Route r3 = new Route(n3,n2,3.0);
+        s.addRoute(r3);
+        Route r4 = new Route(n5,n3,4.0);
+        s.addRoute(r4);
+        Route r5 = new Route(n3,n4,5.0);
+        s.addRoute(r5);
+        Route r6 = new Route(n4,n5,6.0);
+        s.addRoute(r6);
         Node n8 = new Node(8);
         Node n9 = new Node(9);
         Node n10 = new Node(10);
@@ -121,15 +150,38 @@ public class SimulatorTest {
         assert(!map.get(n10).contains(rA));
         assert(map.get(n10).contains(rB));
         assert(!map.get(n10).contains(rC));
-    }
+        System.out.println("DjikstraTest 1.1 OK");
 
-    private boolean arrayListContentEqual(ArrayList<Object> a,ArrayList<Object> b){
-        if(a==null&&b==null) return true;
-        else if(a==null||b==null) return false;
-        if(a.size()!=b.size()) return false;
-        for(int i=0;i<a.size();i++){
-            if(!a.get(i).equals(b.get(i))) return false;
-        }
-        return true;
+        map = sim.getDjikstraRoute(n9);
+        assert(map.get(n8).contains(rA));
+        assert(!map.get(n8).contains(rB));
+        assert(!map.get(n8).contains(rC));
+
+        assert(!map.get(n9).contains(rA));
+        assert(!map.get(n9).contains(rB));
+        assert(!map.get(n9).contains(rC));
+
+        assert(!map.get(n10).contains(rA));
+        assert(!map.get(n10).contains(rB));
+        assert(map.get(n10).contains(rC));
+        System.out.println("DjikstraTest 1.2 OK");
+
+        map = sim.getDjikstraRoute(n2);
+        assertArrayEquals(map.get(n5).toArray(),new Route[]{r1,r2});
+        System.out.println("DjikstraTest 2.1 OK");
+        assertArrayEquals(map.get(n4).toArray(),new Route[]{r3,r5});
+        System.out.println("DjikstraTest 2.2 OK");
+
+        map = sim.getDjikstraRoute(n4);
+        assertArrayEquals(map.get(n5).toArray(),new Route[]{r6});
+        System.out.println("DjikstraTest 3.1 OK");
+        assertArrayEquals(map.get(n2).toArray(),new Route[]{r5,r3});
+        System.out.println("DjikstraTest 3.2 OK");
+
+        map = sim.getDjikstraRoute(n7);
+        assertNull(map.get(n2));
+        System.out.println("DjikstraTest 4.1 OK");
+        assertNull(map.get(n9));
+        System.out.println("DjikstraTest 4.2 OK");
     }
 }
