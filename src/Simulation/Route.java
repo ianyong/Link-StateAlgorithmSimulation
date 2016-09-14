@@ -1,5 +1,7 @@
 package Simulation;
 
+import javafx.scene.shape.Line;
+
 import java.util.Comparator;
 
 /**
@@ -9,17 +11,29 @@ public class Route implements Comparator<Route>,Comparable<Route>{
     private static int COUNTER =1;
     private double x1,y1,x2,y2;
     protected final Node n1,n2;
+    private Line line;
     private double weight;
     public final int routeID;
 
-    public Route(Node n1, Node n2, double weight) {
+    public Route(Node n1, Node n2, Line line, double weight) {
         if(n1.equals(n2)) throw new RuntimeException("WTF Loop");
         this.n1 = n1;
         this.n2 = n2;
+        this.line = line;
         updateXY();
         this.weight = weight;
         routeID = COUNTER++;
     }
+
+    public Route(Node n1, Node n2, Line line){
+        this(n1, n2, line, 1);
+    }
+
+    public Route(Node n1, Node n2, double weight){
+        this(n1, n2, null, weight);
+        System.out.println("FOR DEBUG USE ONLY");
+    }
+
     public void updateXY(){
         this.x1 = n1.x;
         this.y1 = n1.y;

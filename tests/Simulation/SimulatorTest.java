@@ -96,7 +96,7 @@ public class SimulatorTest {
     }
 
     @Test
-    public void testGetDjikstraRoute(){
+    public void testGetDijkstraRoute(){
         State s = new State();
         Simulator sim = new Simulator(s);
         Map<Node,ArrayList<Route>> map;
@@ -138,7 +138,7 @@ public class SimulatorTest {
         s.addRoute(rA);
         s.addRoute(rB);
         s.addRoute(rC);
-        map = sim.getDjikstraRoute(n8);
+        map = sim.getDijkstraRoute(n8);
         assert(!map.get(n8).contains(rA));
         assert(!map.get(n8).contains(rB));
         assert(!map.get(n8).contains(rC));
@@ -150,9 +150,9 @@ public class SimulatorTest {
         assert(!map.get(n10).contains(rA));
         assert(map.get(n10).contains(rB));
         assert(!map.get(n10).contains(rC));
-        System.out.println("DjikstraTest 1.1 OK");
+        System.out.println("DijkstraTest 1.1 OK");
 
-        map = sim.getDjikstraRoute(n9);
+        map = sim.getDijkstraRoute(n9);
         assert(map.get(n8).contains(rA));
         assert(!map.get(n8).contains(rB));
         assert(!map.get(n8).contains(rC));
@@ -164,24 +164,24 @@ public class SimulatorTest {
         assert(!map.get(n10).contains(rA));
         assert(!map.get(n10).contains(rB));
         assert(map.get(n10).contains(rC));
-        System.out.println("DjikstraTest 1.2 OK");
+        System.out.println("DijkstraTest 1.2 OK");
 
-        map = sim.getDjikstraRoute(n2);
+        map = sim.getDijkstraRoute(n2);
         assertArrayEquals(map.get(n5).toArray(),new Route[]{r1,r2});
-        System.out.println("DjikstraTest 2.1 OK");
+        System.out.println("DijkstraTest 2.1 OK");
         assertArrayEquals(map.get(n4).toArray(),new Route[]{r3,r5});
-        System.out.println("DjikstraTest 2.2 OK");
+        System.out.println("DijkstraTest 2.2 OK");
 
-        map = sim.getDjikstraRoute(n4);
+        map = sim.getDijkstraRoute(n4);
         assertArrayEquals(map.get(n5).toArray(),new Route[]{r6});
-        System.out.println("DjikstraTest 3.1 OK");
+        System.out.println("DijkstraTest 3.1 OK");
         assertArrayEquals(map.get(n2).toArray(),new Route[]{r5,r3});
-        System.out.println("DjikstraTest 3.2 OK");
+        System.out.println("DijkstraTest 3.2 OK");
 
-        map = sim.getDjikstraRoute(n7);
+        map = sim.getDijkstraRoute(n7);
         assertNull(map.get(n2));
-        System.out.println("DjikstraTest 4.1 OK");
+        System.out.println("DijkstraTest 4.1 OK");
         assertNull(map.get(n9));
-        System.out.println("DjikstraTest 4.2 OK");
+        System.out.println("DijkstraTest 4.2 OK");
     }
 }

@@ -21,6 +21,12 @@ public class Node {
         y = btn.getLayoutY();
         nodeID=COUNTER++;
     }
+
+    public void updateXY(double x, double y){
+        this.x = x;
+        this.y = y;
+    }
+
     public int getID(){return nodeID;}
     @Override
     public boolean equals(Object o){

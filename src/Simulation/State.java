@@ -25,6 +25,14 @@ public class State {
         return routes;
     }
 
+    protected Node getNode(int nodeID){
+        for(int i = 0; i < nodes.size(); i++){
+            if(nodes.get(i).getID() == nodeID)
+                return nodes.get(i);
+        }
+        return null;
+    }
+
     protected void removeNode(Node n){ removeNode(n.getID());}
 
     protected void removeNode(int nodeID){

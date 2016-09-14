@@ -13,6 +13,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Line;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,8 +21,9 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable{
 
     private static int COUNTER = 1;
-    private boolean edit = false;
+    private boolean edit = false, link = false;
     private State state = new State();
+    private JFXButton linkNode = null;
     @FXML
     private Pane pane, map;
     @FXML
@@ -29,7 +31,7 @@ public class Controller implements Initializable{
     @FXML
     private Tab tabHome, tabEdit;
     @FXML
-    private JFXButton buttonClearAll, buttonBack;
+    private JFXButton buttonClearAll, buttonBack, buttonAddNode;
     @FXML
     private JFXSnackbar snackbar;
 
@@ -70,6 +72,12 @@ public class Controller implements Initializable{
                 }
             }
         });
+        //make clicking on empty space reset linking
+        pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent mouseEvent) {
+                linkNode = null;
+            }
+        });
     }
 
     @FXML
@@ -80,7 +88,7 @@ public class Controller implements Initializable{
         btn.setLayoutY(200);
 
         makeDraggable(btn);
-        makeRightClickDeletable(btn);
+        makeRightClickDeletableAndLinkable(btn);
 
         map.getChildren().add(btn);
         state.addNode(new Node(btn));
@@ -101,6 +109,23 @@ public class Controller implements Initializable{
     private void setHomeTab(){
         hiddenTabPane.getSelectionModel().select(tabHome);
         edit = false;
+    }
+
+    @FXML
+    private void toggleLinkMode(){
+        if(link){
+            link = false;
+            edit = true;
+            buttonBack.setDisable(false);
+            buttonAddNode.setDisable(false);
+            buttonClearAll.setDisable(false);
+        }else{
+            link = true;
+            edit = false;
+            buttonBack.setDisable(true);
+            buttonAddNode.setDisable(true);
+            buttonClearAll.setDisable(true);
+        }
     }
 
     private void makeDraggable(final JFXButton btn){
@@ -151,7 +176,7 @@ public class Controller implements Initializable{
         });
     }
 
-    private void makeRightClickDeletable(final JFXButton btn){
+    private void makeRightClickDeletableAndLinkable(final JFXButton btn){
         btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent mouseEvent) {
                 if(edit) {
@@ -160,8 +185,34 @@ public class Controller implements Initializable{
                         map.getChildren().remove(btn);
                     }
                 }
+                if(link) {
+                    if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+                        if(linkNode == null){
+                            linkNode = btn;
+                        }else{
+                            if(!linkNode.equals(btn)) {
+                                createRoute(btn, linkNode);
+                            }
+                            linkNode = null;
+                        }
+                    }
+                }
             }
         });
+    }
+
+    private void createRoute(JFXButton btn1, JFXButton btn2){
+        Line line = new Line();
+
+        line.setStartX(btn1.getLayoutX() + btn1.getWidth() / 2);
+        line.setStartY(btn1.getLayoutY() + btn1.getHeight() / 2);
+        line.setEndX(btn2.getLayoutX() + btn2.getWidth() / 2);
+        line.setEndY(btn2.getLayoutY() + btn2.getHeight() / 2);
+
+        map.getChildren().add(line);
+        line.toBack();
+
+        state.addRoute(new Route(state.getNode(Integer.parseInt(btn1.getText())), state.getNode(Integer.parseInt(btn2.getText())), line));
     }
 
     class Delta{

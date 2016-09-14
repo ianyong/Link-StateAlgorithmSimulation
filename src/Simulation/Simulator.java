@@ -61,7 +61,7 @@ public class Simulator {
 
     }
 
-    public Map<Node,ArrayList<Route>> getDjikstraRoute(Node origin){
+    public Map<Node,ArrayList<Route>> getDijkstraRoute(Node origin){
         ArrayList<Route> routes = state.getRoutes();
         ArrayList<Node> nodes = state.getNodes();
         Map<Node,ArrayList<Route>> map = new HashMap<Node,ArrayList<Route>>();
