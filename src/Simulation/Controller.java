@@ -1,28 +1,76 @@
 package Simulation;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXTabPane;
+import javafx.application.Platform;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.Tab;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 
-public class Controller {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class Controller implements Initializable{
 
     private static int COUNTER = 1;
     private boolean edit = false;
     private State state = new State();
     @FXML
-    private Pane pane;
+    private Pane pane, map;
     @FXML
     private JFXTabPane hiddenTabPane;
     @FXML
     private Tab tabHome, tabEdit;
+    @FXML
+    private JFXButton buttonClearAll, buttonBack;
+    @FXML
+    private JFXSnackbar snackbar;
+
+    public void initialize(URL url, ResourceBundle rb){
+        snackbar.registerSnackbarContainer(pane);
+        final EventHandler handler = new EventHandler() {
+            public void handle(Event event) {
+                clearAll();
+            }
+        };
+        //initialise clear all button behaviour
+        buttonClearAll.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent mouseEvent) {
+                if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
+                    snackbar.show("Are you sure you want to clear all?", "Yes", 3000, handler);
+                    new Thread(){
+                        public void run(){
+                            Platform.runLater(new Runnable() {
+                                public void run() {
+                                    buttonClearAll.setDisable(true); //disable clear all button to prevent spamming
+                                    buttonBack.setDisable(true); //disable back button to prevent race conditions
+                                }
+                            });
+                            try{
+                                Thread.sleep(3000);
+                            }
+                            catch(InterruptedException e){
+                                e.printStackTrace();
+                            }
+                            Platform.runLater(new Runnable() {
+                                public void run() {
+                                    buttonClearAll.setDisable(false);
+                                    buttonBack.setDisable(false);
+                                }
+                            });
+                        }
+                    }.start();
+                }
+            }
+        });
+    }
 
     @FXML
     private void addNode(){
@@ -34,14 +82,13 @@ public class Controller {
         makeDraggable(btn);
         makeRightClickDeletable(btn);
 
-        pane.getChildren().add(btn);
+        map.getChildren().add(btn);
         state.addNode(new Node(btn));
     }
 
-    @FXML
-    private void clearAll() throws Exception {
-        //pane.getChildren().clear();
-        //state = new State();
+    private void clearAll(){
+        map.getChildren().clear();
+        state = new State();
     }
 
     @FXML
@@ -110,7 +157,7 @@ public class Controller {
                 if(edit) {
                     if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
                         state.removeNode(Integer.parseInt(btn.getText()));
-                        pane.getChildren().remove(btn);
+                        map.getChildren().remove(btn);
                     }
                 }
             }

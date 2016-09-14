@@ -9,3 +9,15 @@
     -fx-border-width: 0px; //originally 4px, but ripple effect not playing nice
     -fx-button-type: RAISED;
 }
+
+.jfx-snackbar-content {
+    -fx-background-color: #323232;
+}
+
+.jfx-snackbar-toast {
+    -fx-text-fill: WHITE;
+}
+
+.jfx-snackbar-action {
+    -fx-text-fill: #CDDC39;
+}
