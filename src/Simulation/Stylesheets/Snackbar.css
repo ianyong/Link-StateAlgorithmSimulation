@@ -1,0 +1,9 @@
+//unable to load via fxml, had to piggyback off of Node.css to load programmatically
+.jfx-snackbar-content {
+    -fx-background-color: #323232;
+}
+
+.jfx-snackbar-toast {
+    -fx-text-fill: WHITE;
+    -fx-font-size: 20;
+}

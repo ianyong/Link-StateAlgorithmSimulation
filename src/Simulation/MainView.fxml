@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXSnackbar?>
 <?import com.jfoenix.controls.JFXTabPane?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Tab?>
@@ -11,7 +12,12 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Simulation.Controller">
    <center>
-      <Pane fx:id="pane" prefHeight="300.0" prefWidth="500.0" BorderPane.alignment="CENTER" />
+      <Pane fx:id="pane" prefHeight="300.0" prefWidth="500.0" BorderPane.alignment="CENTER">
+         <children>
+            <Pane fx:id="map" />
+            <JFXSnackbar fx:id="snackbar" />
+         </children>
+      </Pane>
    </center>
    <bottom>
       <JFXTabPane fx:id="hiddenTabPane" stylesheets="@Stylesheets/HiddenTabPane.css" BorderPane.alignment="CENTER">
@@ -42,10 +48,10 @@
                      <center>
                         <HBox spacing="10.0" style="-fx-background-color: #3F51B5;" BorderPane.alignment="CENTER">
                            <children>
-                              <JFXButton onAction="#setHomeTab" style="-fx-background-color: white;" text="Back" />
+                              <JFXButton fx:id="buttonBack" onAction="#setHomeTab" style="-fx-background-color: white;" text="Back" />
                               <JFXButton onAction="#addNode" style="-fx-background-color: white;" text="Add Router" />
                               <JFXButton style="-fx-background-color: white;" text="Add Routes" />
-                              <JFXButton onAction="#clearAll" style="-fx-background-color: #F48FB1;" text="Clear All" />
+                              <JFXButton fx:id="buttonClearAll" style="-fx-background-color: #F48FB1;" text="Clear All" />
                            </children>
                            <BorderPane.margin>
                               <Insets />
