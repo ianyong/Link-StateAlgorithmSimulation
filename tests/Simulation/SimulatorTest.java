@@ -1,12 +1,15 @@
 package Simulation;
 
+import org.junit.Test;
+
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Created by yusiang on 13/9/16.
  */
 public class SimulatorTest {
-    @org.junit.Test
+    @Test
     public void testGetMST(){
         //TEST 1 See SimulatorTest.png
         State s = new State();
@@ -49,7 +52,7 @@ public class SimulatorTest {
         //Test 2 - A random unconnected node shall not affect mst
         Node n7 = new Node(7);
         s.addNode(n7);
-        mst = sim.getMST(n1);
+        mst = sim.getMST(n3);
         for (Route r:mst)
             ;//System.out.println(r.toString());
         assert(mst.contains(r1));
@@ -87,5 +90,46 @@ public class SimulatorTest {
         assert(mst.contains(rB));
         assert(mst.contains(rC));
         System.out.println("Test 3.3 pass");
+    }
+
+    @Test
+    public void testGetDjikstraRoute(){
+        State s = new State();
+        Simulator sim = new Simulator(s);
+        Map<Node,ArrayList<Route>> map;
+        Node n8 = new Node(8);
+        Node n9 = new Node(9);
+        Node n10 = new Node(10);
+        s.addNode(n8);
+        s.addNode(n9);
+        s.addNode(n10);
+        Route rA = new Route(n8,n9,1);
+        Route rB = new Route(n8,n10,1);
+        Route rC = new Route(n10,n9,1);
+        s.addRoute(rA);
+        s.addRoute(rB);
+        s.addRoute(rC);
+        map = sim.getDjikstraRoute(n8);
+        assert(!map.get(n8).contains(rA));
+        assert(!map.get(n8).contains(rB));
+        assert(!map.get(n8).contains(rC));
+
+        assert(map.get(n9).contains(rA));
+        assert(!map.get(n9).contains(rB));
+        assert(!map.get(n9).contains(rC));
+
+        assert(!map.get(n10).contains(rA));
+        assert(map.get(n10).contains(rB));
+        assert(!map.get(n10).contains(rC));
+    }
+
+    private boolean arrayListContentEqual(ArrayList<Object> a,ArrayList<Object> b){
+        if(a==null&&b==null) return true;
+        else if(a==null||b==null) return false;
+        if(a.size()!=b.size()) return false;
+        for(int i=0;i<a.size();i++){
+            if(!a.get(i).equals(b.get(i))) return false;
+        }
+        return true;
     }
 }

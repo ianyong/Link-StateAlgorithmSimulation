@@ -35,6 +35,10 @@ public class Route implements Comparator<Route>,Comparable<Route>{
         return (n==null||n1.equals(n)||n2.equals(n));
     }
 
+    public double getWeight() {
+        return weight;
+    }
+
     public int compareTo(Route that) {
         return compare(this,that);
     }
@@ -53,4 +57,8 @@ public class Route implements Comparator<Route>,Comparable<Route>{
     public String toString(){
         return "Route "+routeID+" btw nodes "+n1.getID()+"&"+n2.getID()+", weight="+weight;
     }
+    public String toStringShort(){
+        return "n"+n1.getID()+"->n"+n2.getID()+"@w="+weight;
+    }
+
 }

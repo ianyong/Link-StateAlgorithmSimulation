@@ -2,6 +2,8 @@ package Simulation;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by yusiang on 13/9/16.
@@ -58,6 +60,56 @@ public class Simulator {
         return mst;
 
     }
+
+    public Map<Node,ArrayList<Route>> getDjikstraRoute(Node origin){
+        ArrayList<Route> routes = state.getRoutes();
+        ArrayList<Node> nodes = state.getNodes();
+        Map<Node,ArrayList<Route>> map = new HashMap<Node,ArrayList<Route>>();
+        ArrayList<Route> unusedRoutes = new ArrayList<Route>(routes);
+        ArrayList<Route> nextRoutes = new ArrayList<Route>();
+        //Populate Map
+        ////Not needed, since get() returns null if not exist.
+        //Initial origin
+        map.put(origin,new ArrayList<Route>());//0 length route
+        //Add routes from origin to anywhere into nextRoutes, rmv from unusedRoutes
+        for(Route r:unusedRoutes)
+            if(r.has(origin))nextRoutes.add(r);
+        removeRoute(unusedRoutes,origin,null);
+        //Sort nextRoutes
+        Collections.sort(nextRoutes);
+        while(nextRoutes.size()>0) {
+            //foreach route in nextroutes. (Routes in nextroutes guaranteed to go from known node to elsewhere
+            //pick shortest route to anywhere
+            Route currRoute = nextRoutes.get(0);
+            //If dn from initial to N1               + N1 to N2              < curr dn to N2 in map, then it's better route, use it
+            if(getTotalWeight(map.get(currRoute.n1)) + currRoute.getWeight() < getTotalWeight(map.get(currRoute.n2))){
+                //New route for n2 is origin to N1 plus N1 to N2
+                ArrayList<Route> betterRoute = new ArrayList<Route>(map.get(currRoute.n1));
+                betterRoute.add(currRoute);
+                map.put(currRoute.n2,betterRoute);
+                //n2 discovered, add routes starting from n2 (from unusedRoutes)
+                for(Route r:unusedRoutes)
+                    if(r.has(currRoute.n2))nextRoutes.add(r);
+                removeRoute(unusedRoutes,currRoute.n2,null);
+            }
+            //If dn from initial to N2               + N2 to N1              < curr dn to N1 in map, then it's better route, use it (Reverse as unweighted graph)
+            if(getTotalWeight(map.get(currRoute.n2)) + currRoute.getWeight() < getTotalWeight(map.get(currRoute.n1))){
+                //New route for n1 is origin to N2 plus  N2 to  N1
+                ArrayList<Route> betterRoute = new ArrayList<Route>(map.get(currRoute.n2));
+                betterRoute.add(currRoute);
+                map.put(currRoute.n1,betterRoute);
+                //n1 discovered, add routes starting from n2 (from unusedRoutes)
+                for(Route r:unusedRoutes)
+                    if(r.has(currRoute.n1))nextRoutes.add(r);
+                removeRoute(unusedRoutes,currRoute.n1,null);
+            }
+            //Remove this route from nextRoutes
+            removeRoute(nextRoutes,currRoute);
+        }
+        //
+        return map;
+    }
+
     private void removeNode(ArrayList<Node> l, Node n){ removeNode(l,n.getID());}
     private void removeNode(ArrayList<Node> l, int nodeID){
         for(int i=0;i<l.size();){
@@ -80,6 +132,12 @@ public class Simulator {
             if(l.get(i).has(n1)&&l.get(i).has(n2)) l.remove(i);
             else i++;
         }
+    }
+    private int getTotalWeight(ArrayList<Route> routes){
+        if(routes==null) return Integer.MAX_VALUE/2;//No route. Dn is infinity or thereabouts.
+        int i=0;
+        for(Route r:routes) i+=r.getWeight();
+        return i;
     }
 
 }
