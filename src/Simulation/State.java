@@ -48,6 +48,7 @@ public class State {
             if(routes.get(i).has(nodeID)) {
                 nodes.add(routes.get(i).getLine());
                 nodes.add(routes.get(i).getRectangle());
+                nodes.add(routes.get(i).getLabel());
                 routes.remove(i);
                 i--;
             }
@@ -91,6 +92,7 @@ public class State {
             if(routes.get(i).has(n1)&&routes.get(i).has(n2)){
                 nodes.add(routes.get(i).getLine());
                 nodes.add(routes.get(i).getRectangle());
+                nodes.add(routes.get(i).getLabel());
                 routes.remove(i);
             }
             else i++;

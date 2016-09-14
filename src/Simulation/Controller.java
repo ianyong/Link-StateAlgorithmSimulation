@@ -9,6 +9,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -228,15 +229,27 @@ public class Controller implements Initializable{
 
     private void createRoute(JFXButton btn1, JFXButton btn2){
         Line line = new Line();
-        Rectangle rec = new Rectangle();
-        rec.setWidth(20);
-        rec.setHeight(20);
+        line.setStyle("-fx-stroke: #4DB6AC");
+        line.setVisible(false);
 
-        map.getChildren().addAll(line, rec);
+        Label label = new Label();
+        label.setStyle("-fx-text-fill: white");
+        label.setVisible(false);
+
+        Rectangle rec = new Rectangle();
+        rec.setStyle("-fx-fill: #009688");
+        rec.widthProperty().bind(label.widthProperty().add(10));
+        rec.setHeight(20);
+        rec.setVisible(false);
+
+        map.getChildren().addAll(line, rec, label);
+
+        //always place nodes at front
+        label.toBack();
         rec.toBack();
         line.toBack();
 
-        state.addRoute(new Route(state.getNode(Integer.parseInt(btn1.getText())), state.getNode(Integer.parseInt(btn2.getText())), line, rec));
+        state.addRoute(new Route(state.getNode(Integer.parseInt(btn1.getText())), state.getNode(Integer.parseInt(btn2.getText())), line, rec, label));
     }
 
     private void removeRoute(JFXButton btn1, JFXButton btn2){
