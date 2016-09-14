@@ -54,6 +54,14 @@ public class State {
         return lines;
     }
 
+    protected boolean routeExists(int n1, int n2){
+        for(int i = 0; i < routes.size(); i++){
+            if(routes.get(i).has(n1) && routes.get(i).has(n2))
+                return true;
+        }
+        return false;
+    }
+
     protected void removeNode(Node n){ removeNode(n.getID());}
 
     protected void removeNode(int nodeID){
@@ -76,11 +84,16 @@ public class State {
         removeRoute(n1==null?0:n1.getID(),n2==null?0:n2.getID());
     }
 
-    protected void removeRoute(int n1,int n2){    //Removes a route with n1 and n2
+    protected Line removeRoute(int n1,int n2){    //Removes a route with n1 and n2
+        Line line = null;
         for(int i=0;i<routes.size();){                                   //0 means a wildcard, i.e. n,0 will remove all routes with n
-            if(routes.get(i).has(n1)&&routes.get(i).has(n2)) routes.remove(i);
+            if(routes.get(i).has(n1)&&routes.get(i).has(n2)){
+                line = routes.get(i).getComponent();
+                routes.remove(i);
+            }
             else i++;
         }
+        return line;
     }
 
     protected void updateRoutes(){

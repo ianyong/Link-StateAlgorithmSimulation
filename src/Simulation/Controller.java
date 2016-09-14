@@ -200,7 +200,11 @@ public class Controller implements Initializable{
                             linkNode = btn;
                         }else{
                             if(!linkNode.equals(btn)) {
-                                createRoute(btn, linkNode);
+                                if(!state.routeExists(Integer.parseInt(btn.getText()), Integer.parseInt(linkNode.getText()))) {
+                                    createRoute(btn, linkNode);
+                                }else{
+                                    removeRoute(btn, linkNode);
+                                }
                             }
                             linkNode = null;
                         }
@@ -217,6 +221,10 @@ public class Controller implements Initializable{
         line.toBack();
 
         state.addRoute(new Route(state.getNode(Integer.parseInt(btn1.getText())), state.getNode(Integer.parseInt(btn2.getText())), line));
+    }
+
+    private void removeRoute(JFXButton btn1, JFXButton btn2){
+        map.getChildren().remove(state.removeRoute(Integer.parseInt(btn1.getText()), Integer.parseInt(btn2.getText())));
     }
 
     class Delta{
