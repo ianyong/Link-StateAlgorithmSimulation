@@ -1,14 +1,23 @@
 package Simulation;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTabPane;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+
+import javax.annotation.PostConstruct;
+import java.io.IOException;
 
 public class Controller {
 
@@ -21,6 +30,10 @@ public class Controller {
     private JFXTabPane hiddenTabPane;
     @FXML
     private Tab tabHome, tabEdit;
+    @FXML
+    private JFXDialog dialog;
+    @FXML
+    private StackPane root;
 
     @FXML
     private void addNode(){
@@ -37,9 +50,10 @@ public class Controller {
     }
 
     @FXML
-    private void clearAll(){
-        pane.getChildren().clear();
-        state = new State();
+    private void clearAll() throws Exception {
+        dialog.show(root);
+        //pane.getChildren().clear();
+        //state = new State();
     }
 
     @FXML
@@ -52,6 +66,12 @@ public class Controller {
     private void setHomeTab(){
         hiddenTabPane.getSelectionModel().select(tabHome);
         edit = false;
+    }
+
+    @PostConstruct
+    private void init(){
+        root.getChildren().remove(dialog);
+        dialog.setTransitionType(JFXDialog.DialogTransition.CENTER);
     }
 
     private void makeDraggable(final JFXButton btn){
