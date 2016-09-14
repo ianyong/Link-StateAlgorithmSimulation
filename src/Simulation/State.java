@@ -1,5 +1,7 @@
 package Simulation;
 
+import javafx.scene.shape.Line;
+
 import java.util.ArrayList;
 
 /**
@@ -31,6 +33,25 @@ public class State {
                 return nodes.get(i);
         }
         return null;
+    }
+
+    protected void updateRoutes(int nodeID){
+        for(int i = 0; i < routes.size(); i++){
+            if(routes.get(i).has(nodeID))
+                routes.get(i).updateXY();
+        }
+    }
+
+    protected ArrayList<Line> removeRoutes(int nodeID){
+        ArrayList<Line> lines = new ArrayList<Line>();
+        for(int i = 0; i < routes.size(); i++){
+            if(routes.get(i).has(nodeID)) {
+                lines.add(routes.get(i).getComponent());
+                routes.remove(i);
+                i--;
+            }
+        }
+        return lines;
     }
 
     protected void removeNode(Node n){ removeNode(n.getID());}

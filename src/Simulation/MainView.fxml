@@ -50,7 +50,7 @@
                            <children>
                               <JFXButton fx:id="buttonBack" onAction="#setHomeTab" style="-fx-background-color: white;" text="Back" />
                               <JFXButton fx:id="buttonAddNode" onAction="#addNode" style="-fx-background-color: white;" text="Add Router" />
-                              <JFXButton onAction="#toggleLinkMode" style="-fx-background-color: white;" text="Add Route" />
+                              <JFXButton fx:id="buttonAddRoute" onAction="#toggleLinkMode" style="-fx-background-color: white;" text="Add Route" />
                               <JFXButton fx:id="buttonClearAll" style="-fx-background-color: #F48FB1;" text="Clear All" />
                            </children>
                            <BorderPane.margin>

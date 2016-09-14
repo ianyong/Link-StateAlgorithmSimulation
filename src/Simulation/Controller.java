@@ -31,7 +31,7 @@ public class Controller implements Initializable{
     @FXML
     private Tab tabHome, tabEdit;
     @FXML
-    private JFXButton buttonClearAll, buttonBack, buttonAddNode;
+    private JFXButton buttonClearAll, buttonBack, buttonAddNode, buttonAddRoute;
     @FXML
     private JFXSnackbar snackbar;
 
@@ -52,7 +52,9 @@ public class Controller implements Initializable{
                             Platform.runLater(new Runnable() {
                                 public void run() {
                                     buttonClearAll.setDisable(true); //disable clear all button to prevent spamming
-                                    buttonBack.setDisable(true); //disable back button to prevent race conditions
+                                    buttonBack.setDisable(true);
+                                    buttonAddNode.setDisable(true);
+                                    buttonAddRoute.setDisable(true);
                                 }
                             });
                             try{
@@ -65,6 +67,8 @@ public class Controller implements Initializable{
                                 public void run() {
                                     buttonClearAll.setDisable(false);
                                     buttonBack.setDisable(false);
+                                    buttonAddNode.setDisable(false);
+                                    buttonAddRoute.setDisable(false);
                                 }
                             });
                         }
@@ -119,12 +123,14 @@ public class Controller implements Initializable{
             buttonBack.setDisable(false);
             buttonAddNode.setDisable(false);
             buttonClearAll.setDisable(false);
+            snackbar.show("Linking disabled", 1000);
         }else{
             link = true;
             edit = false;
             buttonBack.setDisable(true);
             buttonAddNode.setDisable(true);
             buttonClearAll.setDisable(true);
+            snackbar.show("Linking enabled", 1000);
         }
     }
 
@@ -156,6 +162,8 @@ public class Controller implements Initializable{
                         }
                         btn.setLayoutX(mouseEvent.getSceneX() + dragDelta.x);
                         btn.setLayoutY(mouseEvent.getSceneY() + dragDelta.y);
+                        state.getNode(Integer.parseInt(btn.getText())).updateXY();
+                        state.updateRoutes(Integer.parseInt(btn.getText()));
                     }
                 }
             }
@@ -181,6 +189,7 @@ public class Controller implements Initializable{
             public void handle(MouseEvent mouseEvent) {
                 if(edit) {
                     if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
+                        map.getChildren().removeAll(state.removeRoutes(Integer.parseInt(btn.getText())));
                         state.removeNode(Integer.parseInt(btn.getText()));
                         map.getChildren().remove(btn);
                     }
@@ -203,11 +212,6 @@ public class Controller implements Initializable{
 
     private void createRoute(JFXButton btn1, JFXButton btn2){
         Line line = new Line();
-
-        line.setStartX(btn1.getLayoutX() + btn1.getWidth() / 2);
-        line.setStartY(btn1.getLayoutY() + btn1.getHeight() / 2);
-        line.setEndX(btn2.getLayoutX() + btn2.getWidth() / 2);
-        line.setEndY(btn2.getLayoutY() + btn2.getHeight() / 2);
 
         map.getChildren().add(line);
         line.toBack();

@@ -22,9 +22,13 @@ public class Node {
         nodeID=COUNTER++;
     }
 
-    public void updateXY(double x, double y){
-        this.x = x;
-        this.y = y;
+    public void updateXY(){
+        x = btn.getLayoutX();
+        y = btn.getLayoutY();
+    }
+
+    public JFXButton getComponent(){
+        return btn;
     }
 
     public int getID(){return nodeID;}

@@ -39,6 +39,15 @@ public class Route implements Comparator<Route>,Comparable<Route>{
         this.y1 = n1.y;
         this.x2 = n2.x;
         this.y2 = n2.y;
+
+        line.setStartX(x1 + n1.getComponent().getWidth() / 2);
+        line.setStartY(y1 + n1.getComponent().getHeight() / 2);
+        line.setEndX(x2 + n2.getComponent().getWidth() / 2);
+        line.setEndY(y2 + n2.getComponent().getHeight() / 2);
+    }
+
+    public Line getComponent(){
+        return line;
     }
 
     public int getID(){return routeID;}
