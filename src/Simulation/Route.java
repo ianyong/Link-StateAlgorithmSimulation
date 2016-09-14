@@ -1,6 +1,7 @@
 package Simulation;
 
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 
 import java.util.Comparator;
 
@@ -12,25 +13,27 @@ public class Route implements Comparator<Route>,Comparable<Route>{
     private double x1,y1,x2,y2;
     protected final Node n1,n2;
     private Line line;
+    private Rectangle rec;
     private double weight;
     public final int routeID;
 
-    public Route(Node n1, Node n2, Line line, double weight) {
+    public Route(Node n1, Node n2, Line line, Rectangle rec, double weight) {
         if(n1.equals(n2)) throw new RuntimeException("WTF Loop");
         this.n1 = n1;
         this.n2 = n2;
         this.line = line;
+        this.rec = rec;
         updateXY();
         this.weight = weight;
         routeID = COUNTER++;
     }
 
-    public Route(Node n1, Node n2, Line line){
-        this(n1, n2, line, 1);
+    public Route(Node n1, Node n2, Line line, Rectangle rec){
+        this(n1, n2, line, rec, 1);
     }
 
     public Route(Node n1, Node n2, double weight){
-        this(n1, n2, null, weight);
+        this(n1, n2, null, null, weight);
         System.out.println("FOR DEBUG USE ONLY");
     }
 
@@ -44,10 +47,17 @@ public class Route implements Comparator<Route>,Comparable<Route>{
         line.setStartY(y1 + n1.getComponent().getHeight() / 2);
         line.setEndX(x2 + n2.getComponent().getWidth() / 2);
         line.setEndY(y2 + n2.getComponent().getHeight() / 2);
+
+        rec.setX((x1 + x2) / 2 + n1.getComponent().getWidth() / 2 - rec.getWidth() / 2);
+        rec.setY((y1 + y2) / 2 + n1.getComponent().getHeight() / 2 - rec.getHeight() / 2);
     }
 
-    public Line getComponent(){
+    public Line getLine(){
         return line;
+    }
+
+    public Rectangle getRectangle(){
+        return rec;
     }
 
     public int getID(){return routeID;}

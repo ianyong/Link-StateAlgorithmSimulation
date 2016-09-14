@@ -14,6 +14,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -227,15 +228,19 @@ public class Controller implements Initializable{
 
     private void createRoute(JFXButton btn1, JFXButton btn2){
         Line line = new Line();
+        Rectangle rec = new Rectangle();
+        rec.setWidth(20);
+        rec.setHeight(20);
 
-        map.getChildren().add(line);
+        map.getChildren().addAll(line, rec);
+        rec.toBack();
         line.toBack();
 
-        state.addRoute(new Route(state.getNode(Integer.parseInt(btn1.getText())), state.getNode(Integer.parseInt(btn2.getText())), line));
+        state.addRoute(new Route(state.getNode(Integer.parseInt(btn1.getText())), state.getNode(Integer.parseInt(btn2.getText())), line, rec));
     }
 
     private void removeRoute(JFXButton btn1, JFXButton btn2){
-        map.getChildren().remove(state.removeRoute(Integer.parseInt(btn1.getText()), Integer.parseInt(btn2.getText())));
+        map.getChildren().removeAll(state.removeRoute(Integer.parseInt(btn1.getText()), Integer.parseInt(btn2.getText())));
     }
 
     class Delta{

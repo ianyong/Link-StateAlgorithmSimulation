@@ -42,16 +42,17 @@ public class State {
         }
     }
 
-    protected ArrayList<Line> removeRoutes(int nodeID){
-        ArrayList<Line> lines = new ArrayList<Line>();
+    protected ArrayList<javafx.scene.Node> removeRoutes(int nodeID){
+        ArrayList<javafx.scene.Node> nodes = new ArrayList<javafx.scene.Node>();
         for(int i = 0; i < routes.size(); i++){
             if(routes.get(i).has(nodeID)) {
-                lines.add(routes.get(i).getComponent());
+                nodes.add(routes.get(i).getLine());
+                nodes.add(routes.get(i).getRectangle());
                 routes.remove(i);
                 i--;
             }
         }
-        return lines;
+        return nodes;
     }
 
     protected boolean routeExists(int n1, int n2){
@@ -84,16 +85,17 @@ public class State {
         removeRoute(n1==null?0:n1.getID(),n2==null?0:n2.getID());
     }
 
-    protected Line removeRoute(int n1,int n2){    //Removes a route with n1 and n2
-        Line line = null;
+    protected ArrayList<javafx.scene.Node> removeRoute(int n1, int n2){    //Removes a route with n1 and n2
+        ArrayList<javafx.scene.Node> nodes = new ArrayList<javafx.scene.Node>();
         for(int i=0;i<routes.size();){                                   //0 means a wildcard, i.e. n,0 will remove all routes with n
             if(routes.get(i).has(n1)&&routes.get(i).has(n2)){
-                line = routes.get(i).getComponent();
+                nodes.add(routes.get(i).getLine());
+                nodes.add(routes.get(i).getRectangle());
                 routes.remove(i);
             }
             else i++;
         }
-        return line;
+        return nodes;
     }
 
     protected void updateRoutes(){

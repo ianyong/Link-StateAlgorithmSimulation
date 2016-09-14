@@ -11,8 +11,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("MainView.fxml"));
-        primaryStage.setTitle("Hello World");
-        Scene scene = new Scene(root, 500, 400);
+        primaryStage.setTitle("Link-State Algorithm Simulation");
+        Scene scene = new Scene(root, 700, 500);
         scene.getStylesheets().add(getClass().getResource("Stylesheets/Main.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
