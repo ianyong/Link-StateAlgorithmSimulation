@@ -62,6 +62,7 @@ public class Simulator {
     }
 
     public Map<Node,ArrayList<Route>> getDijkstraRoute(Node origin){
+        System.out.println("New D");
         ArrayList<Route> routes = state.getRoutes();
         ArrayList<Node> nodes = state.getNodes();
         Map<Node,ArrayList<Route>> map = new HashMap<Node,ArrayList<Route>>();
@@ -81,6 +82,7 @@ public class Simulator {
             //foreach route in nextroutes. (Routes in nextroutes guaranteed to go from known node to elsewhere
             //pick shortest route to anywhere
             Route currRoute = nextRoutes.get(0);
+            System.out.println(currRoute.toStringShort());
             //If dn from initial to N1               + N1 to N2              < curr dn to N2 in map, then it's better route, use it
             if(getTotalWeight(map.get(currRoute.n1)) + currRoute.getWeight() < getTotalWeight(map.get(currRoute.n2))){
                 //New route for n2 is origin to N1 plus N1 to N2
