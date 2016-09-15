@@ -327,10 +327,14 @@ public class Controller implements Initializable{
         node.setOnMouseDragged(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent mouseEvent) {
                 if(edit || link) {
-                    if(mouseEvent.getButton().equals(MouseButton.PRIMARY))
-                        route.setWeight((int)(dragDelta.weight + ((mouseEvent.getSceneX() - dragDelta.x) / 10) - (mouseEvent.getSceneY() - dragDelta.y) / 10));
-                    else if(mouseEvent.getButton().equals(MouseButton.SECONDARY))
-                        route.setWeight((int)(dragDelta.weight + ((mouseEvent.getSceneX() - dragDelta.x)) - (mouseEvent.getSceneY() - dragDelta.y)));
+                    if(mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+                        route.setWeight((int) (dragDelta.weight + ((mouseEvent.getSceneX() - dragDelta.x) / 10) - (mouseEvent.getSceneY() - dragDelta.y) / 10));
+                        if(route.getWeight()<1) route.setWeight(1);
+                    }
+                    else if(mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
+                        route.setWeight((int) (dragDelta.weight + ((mouseEvent.getSceneX() - dragDelta.x)) - (mouseEvent.getSceneY() - dragDelta.y)));
+                        if(route.getWeight()<1) route.setWeight(1);
+                    }
                 }
             }
         });
