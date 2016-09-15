@@ -107,8 +107,10 @@ public class Simulator {
             }
             //Remove this route from nextRoutes
             removeRoute(nextRoutes,currRoute);
+            Collections.sort(nextRoutes);
         }
         //
+        map.put(origin,new ArrayList<Route>());
         return map;
     }
 
