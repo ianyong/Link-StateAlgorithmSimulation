@@ -23,7 +23,6 @@ import java.util.ResourceBundle;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
-import static java.lang.Math.round;
 
 public class Controller implements Initializable{
 
@@ -52,6 +51,7 @@ public class Controller implements Initializable{
         };
         //initialise clear all button behaviour
         buttonClearAll.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @SuppressWarnings("unchecked")
             public void handle(MouseEvent mouseEvent) {
                 if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
                     snackbar.show("Are you sure you want to clear all?", "Yes", 3000, handler);
@@ -354,7 +354,7 @@ public class Controller implements Initializable{
         return "Total cost: "+i;
     }
 
-    class Delta{
+    private class Delta{
         double x, y;
         int weight;
         boolean dragStarted = false;
