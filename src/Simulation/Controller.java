@@ -27,7 +27,7 @@ import static java.lang.Math.round;
 public class Controller implements Initializable{
 
     private static int COUNTER = 1;
-    private boolean edit = false, link = false;
+    private boolean edit = false, link = false, simulation = false;
     private State state = new State();
     private JFXButton linkNode = null;
     @FXML
@@ -35,13 +35,14 @@ public class Controller implements Initializable{
     @FXML
     private JFXTabPane hiddenTabPane;
     @FXML
-    private Tab tabHome, tabEdit;
+    private Tab tabHome, tabEdit, tabSimulation;
     @FXML
     private JFXButton buttonClearAll, buttonBack, buttonAddNode, buttonAddRoute;
     @FXML
     private JFXSnackbar snackbar;
 
     public void initialize(URL url, ResourceBundle rb){
+        hiddenTabPane.getSelectionModel().select(tabHome);
         snackbar.registerSnackbarContainer(pane);
         final EventHandler handler = new EventHandler() {
             public void handle(Event event) {
@@ -119,6 +120,13 @@ public class Controller implements Initializable{
     private void setHomeTab(){
         hiddenTabPane.getSelectionModel().select(tabHome);
         edit = false;
+        simulation = false;
+    }
+
+    @FXML
+    private void setSimulationTab(){
+        hiddenTabPane.getSelectionModel().select(tabSimulation);
+        simulation = true;
     }
 
     @FXML

@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 
-
 <BorderPane xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Simulation.Controller">
    <center>
       <Pane fx:id="pane" prefHeight="300.0" prefWidth="500.0" BorderPane.alignment="CENTER">
@@ -22,14 +21,13 @@
    <bottom>
       <JFXTabPane fx:id="hiddenTabPane" stylesheets="@Stylesheets/HiddenTabPane.css" BorderPane.alignment="CENTER">
          <tabs>
-            <Tab fx:id="tabHome" text="Home">
+            <Tab fx:id="tabSimulation" text="Simulation">
                <content>
                   <BorderPane>
                      <center>
                         <HBox spacing="10.0" style="-fx-background-color: #3F51B5;" BorderPane.alignment="CENTER">
                            <children>
-                              <JFXButton onAction="#setEditTab" style="-fx-background-color: white;" text="Edit" />
-                              <JFXButton style="-fx-background-color: white;" text="Run Simulation" />
+                              <JFXButton onAction="#setHomeTab" style="-fx-background-color: white;" text="Back" />
                            </children>
                            <padding>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -38,9 +36,23 @@
                      </center>
                   </BorderPane>
                </content>
-               <graphic>
-                  <BorderPane prefHeight="200.0" prefWidth="200.0" />
-               </graphic>
+            </Tab>
+            <Tab fx:id="tabHome" text="Home">
+               <content>
+                  <BorderPane>
+                     <center>
+                        <HBox spacing="10.0" style="-fx-background-color: #3F51B5;" BorderPane.alignment="CENTER">
+                           <children>
+                              <JFXButton onAction="#setEditTab" style="-fx-background-color: white;" text="Edit" />
+                              <JFXButton onAction="#setSimulationTab" style="-fx-background-color: white;" text="Run Simulation" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </HBox>
+                     </center>
+                  </BorderPane>
+               </content>
             </Tab>
             <Tab fx:id="tabEdit" text="Edit">
                <content>
