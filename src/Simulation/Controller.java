@@ -18,6 +18,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import static java.lang.Math.max;
@@ -87,6 +88,7 @@ public class Controller implements Initializable{
         pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent mouseEvent) {
                 linkNode = null;
+                state.lct = null;
                 decolouriseNodes();
                 decolouriseRoutes();
             }
@@ -251,15 +253,20 @@ public class Controller implements Initializable{
                         state.getNode(ID).setHighlighted(true);
                         state.lct=sim.getDijkstraRoute(state.getNode(ID));
                         for(Node n:state.getNodes()){
-                            for(Route r:state.lct.get(n)){
-                                r.setHighlighted(true);
-                            }
+                            if(state.lct.get(n)!=null)
+                                for(Route r:state.lct.get(n)){
+                                    r.setHighlighted(true);
+                                }
                         }
                     }else if(mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
                         if(state.lct==null)
                             snackbar.show("Select origin first", 1000);
-                        else for(Route r:state.lct.get(state.getNode(ID))){
-                            r.setHighlighted(true);
+                        else{
+                            if(state.lct.get(state.getNode(ID))!=null)
+                                for(Route r:state.lct.get(state.getNode(ID))){
+                                    r.setHighlighted(true);
+                                }
+                            snackbar.show(getTotalCost(state.lct.get(state.getNode(ID))), 1000);
                         }
                     }
                 }
@@ -301,7 +308,7 @@ public class Controller implements Initializable{
         final Delta dragDelta = new Delta();
         node.setOnMousePressed(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent mouseEvent) {
-                if(edit) {
+                if(edit || link) {
                     // record a delta distance for the drag and drop operation.
                     dragDelta.x = node.getLayoutX() + mouseEvent.getSceneX();
                     dragDelta.y = node.getLayoutY() + mouseEvent.getSceneY();
@@ -311,18 +318,18 @@ public class Controller implements Initializable{
         });
         node.setOnMouseEntered(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent mouseEvent) {
-                if(edit) {
+                if(edit || link) {
                     node.setCursor(Cursor.HAND);
                 }
             }
         });
         node.setOnMouseDragged(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent mouseEvent) {
-                if(edit) {
+                if(edit || link) {
                     if(mouseEvent.getButton().equals(MouseButton.PRIMARY))
-                        route.setWeight((int)(dragDelta.weight + ((mouseEvent.getSceneX() - dragDelta.x) / 10 ) - (mouseEvent.getSceneY() - dragDelta.y) / 10 ));
+                        route.setWeight((int)(dragDelta.weight + ((mouseEvent.getSceneX() - dragDelta.x) / 10) - (mouseEvent.getSceneY() - dragDelta.y) / 10));
                     else if(mouseEvent.getButton().equals(MouseButton.SECONDARY))
-                        route.setWeight((int)(dragDelta.weight + ((mouseEvent.getSceneX() - dragDelta.x)      ) - (mouseEvent.getSceneY() - dragDelta.y)));
+                        route.setWeight((int)(dragDelta.weight + ((mouseEvent.getSceneX() - dragDelta.x)) - (mouseEvent.getSceneY() - dragDelta.y)));
                 }
             }
         });
@@ -338,6 +345,13 @@ public class Controller implements Initializable{
 
     private void decolouriseNodes(){
         for(Node n:state.getNodes()) n.setHighlighted(false);
+    }
+
+    private String getTotalCost(ArrayList<Route> routes){
+        if(routes==null) return "No route";
+        int i=0;
+        for(Route r:routes) i+=r.getWeight();
+        return "Total cost: "+i;
     }
 
     class Delta{
