@@ -136,7 +136,7 @@ public class Route implements Comparator<Route>,Comparable<Route>{
     }
 
     public void setHighlighted(boolean b){
-        line.setStyle(b?"-fx-stroke: #0000FF":"-fx-stroke: #4DB6AC");
-        rec.setStyle(b?"-fx-fill: #0000FF":"-fx-fill: #009688");//TODO
+        line.setStyle(b?"-fx-stroke: #4DD0E1":"-fx-stroke: #4DB6AC");
+        rec.setStyle(b?"-fx-fill: #00BCD4":"-fx-fill: #009688");
     }
 }

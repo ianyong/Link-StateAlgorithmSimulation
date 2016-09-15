@@ -87,6 +87,8 @@ public class Controller implements Initializable{
         pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent mouseEvent) {
                 linkNode = null;
+                decolouriseNodes();
+                decolouriseRoutes();
             }
         });
     }
@@ -151,7 +153,7 @@ public class Controller implements Initializable{
             buttonAddNode.setDisable(true);
             buttonClearAll.setDisable(true);
             snackbar.show("Linking enabled", 1000);
-            buttonAddRoute.setText("  Cancel  ");
+            buttonAddRoute.setText("Cancel");
         }
     }
 
@@ -227,6 +229,7 @@ public class Controller implements Initializable{
                     if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
                         if(linkNode == null){
                             linkNode = btn;
+                            state.getNode(Integer.parseInt(btn.getText())).setHighlighted(true);
                         }else{
                             if(!linkNode.equals(btn)) {
                                 if(!state.routeExists(Integer.parseInt(btn.getText()), Integer.parseInt(linkNode.getText()))) {
@@ -236,6 +239,7 @@ public class Controller implements Initializable{
                                 }
                             }
                             linkNode = null;
+                            decolouriseNodes();
                         }
                     }
                 }

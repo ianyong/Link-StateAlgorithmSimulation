@@ -40,6 +40,6 @@ public class Node {
     }
 
     public void setHighlighted(boolean b) {
-        btn.setStyle(b ? "-fx-background-color:blue" : "-fx-background-color:#44B449");
+        btn.setStyle(b ? "-fx-background-color: #0097A7" : "-fx-background-color: #44B449");
     }
 }
