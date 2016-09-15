@@ -2,6 +2,7 @@ package Simulation;
 
 import javafx.application.Platform;
 import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
@@ -54,8 +55,12 @@ public class Route implements Comparator<Route>,Comparable<Route>{
         this(n1, n2, line, rec, label, 1);
     }
 
+    @Deprecated
     public Route(Node n1, Node n2, double weight){
-        this(n1, n2, null, null, null, weight);
+        //this(n1, n2, null, null, null, weight);
+        this.n1=n1;this.n2=n2;
+        this.weight=weight;
+        routeID = COUNTER++;
         System.out.println("FOR DEBUG USE ONLY");
     }
 
@@ -130,4 +135,8 @@ public class Route implements Comparator<Route>,Comparable<Route>{
         return "n"+n1.getID()+"->n"+n2.getID()+"@w="+weight;
     }
 
+    public void setHighlighted(boolean b){
+        line.setStyle(b?"-fx-stroke: #0000FF":"-fx-stroke: #4DB6AC");
+        rec.setStyle(b?"-fx-fill: #0000FF":"-fx-fill: #009688");//TODO
+    }
 }

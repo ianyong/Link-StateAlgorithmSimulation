@@ -26,9 +26,9 @@ import static java.lang.Math.round;
 
 public class Controller implements Initializable{
 
-    private static int COUNTER = 1;
     private boolean edit = false, link = false, simulation = false;
     private State state = new State();
+    private Simulator sim = new Simulator(state);
     private JFXButton linkNode = null;
     @FXML
     private Pane pane, map;
@@ -93,16 +93,18 @@ public class Controller implements Initializable{
 
     @FXML
     private void addNode(){
-        JFXButton btn = new JFXButton(String.valueOf(COUNTER++));
+        JFXButton btn = new JFXButton("");
         btn.getStyleClass().add("node");
         btn.setLayoutX(pane.getWidth() / 2 - 25); //getWidth() and getHeight() for btn return 0.0 here for some reason
         btn.setLayoutY(pane.getHeight() / 2 - 25);
 
         makeDraggable(btn);
-        makeRightClickDeletableAndLinkable(btn);
+        makeButtonDoStuff(btn);
 
         map.getChildren().add(btn);
-        state.addNode(new Node(btn));
+        Node n=new Node(btn);
+        state.addNode(n);
+        btn.setText(n.getID()+"");
     }
 
     private void clearAll(){
@@ -121,6 +123,9 @@ public class Controller implements Initializable{
         hiddenTabPane.getSelectionModel().select(tabHome);
         edit = false;
         simulation = false;
+        state.lct = null;
+        decolouriseRoutes();
+        decolouriseNodes();
     }
 
     @FXML
@@ -208,7 +213,7 @@ public class Controller implements Initializable{
         return max(0, min(d, pane.getHeight() - 50));
     }
 
-    private void makeRightClickDeletableAndLinkable(final JFXButton btn){
+    private void makeButtonDoStuff(final JFXButton btn){
         btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent mouseEvent) {
                 if(edit) {
@@ -231,6 +236,26 @@ public class Controller implements Initializable{
                                 }
                             }
                             linkNode = null;
+                        }
+                    }
+                }
+                if(simulation) {
+                    decolouriseRoutes();
+                    int ID=Integer.parseInt(btn.getText());
+                    if(mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+                        decolouriseNodes();
+                        state.getNode(ID).setHighlighted(true);
+                        state.lct=sim.getDijkstraRoute(state.getNode(ID));
+                        for(Node n:state.getNodes()){
+                            for(Route r:state.lct.get(n)){
+                                r.setHighlighted(true);
+                            }
+                        }
+                    }else if(mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
+                        if(state.lct==null)
+                            snackbar.show("Select origin first", 1000);
+                        else for(Route r:state.lct.get(state.getNode(ID))){
+                            r.setHighlighted(true);
                         }
                     }
                 }
@@ -298,6 +323,14 @@ public class Controller implements Initializable{
 
     private void removeRoute(JFXButton btn1, JFXButton btn2){
         map.getChildren().removeAll(state.removeRoute(Integer.parseInt(btn1.getText()), Integer.parseInt(btn2.getText())));
+    }
+
+    private void decolouriseRoutes(){
+        for(Route r:state.getRoutes()) r.setHighlighted(false);
+    }
+
+    private void decolouriseNodes(){
+        for(Node n:state.getNodes()) n.setHighlighted(false);
     }
 
     class Delta{

@@ -93,7 +93,7 @@ public class Simulator {
                 removeRoute(unusedRoutes,currRoute.n2,null);
             }
             //If dn from initial to N2               + N2 to N1              < curr dn to N1 in map, then it's better route, use it (Reverse as unweighted graph)
-            if(getTotalWeight(map.get(currRoute.n2)) + currRoute.getWeight() < getTotalWeight(map.get(currRoute.n1))){
+            else if(getTotalWeight(map.get(currRoute.n2)) + currRoute.getWeight() < getTotalWeight(map.get(currRoute.n1))){
                 //New route for n1 is origin to N2 plus  N2 to  N1
                 ArrayList<Route> betterRoute = new ArrayList<Route>(map.get(currRoute.n2));
                 betterRoute.add(currRoute);

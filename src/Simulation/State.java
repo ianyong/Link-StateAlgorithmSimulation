@@ -3,6 +3,7 @@ package Simulation;
 import javafx.scene.shape.Line;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Created by Ian on 14/9/2016.
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 public class State {
     private ArrayList<Node> nodes = new ArrayList<Node>();
     private ArrayList<Route> routes = new ArrayList<Route>();
+    protected Map<Node,ArrayList<Route>> lct;
 
     protected void addNode(Node n){
         nodes.add(n);

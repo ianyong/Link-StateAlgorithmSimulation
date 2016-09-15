@@ -38,4 +38,8 @@ public class Node {
         if(!Node.class.isAssignableFrom(o.getClass())) return false;
         return this.getID()==((Node)o).getID();
     }
+
+    public void setHighlighted(boolean b) {
+        btn.setStyle(b ? "-fx-background-color:blue" : "-fx-background-color:#44B449");
+    }
 }
