@@ -320,9 +320,9 @@ public class Controller implements Initializable{
             public void handle(MouseEvent mouseEvent) {
                 if(edit) {
                     if(mouseEvent.getButton().equals(MouseButton.PRIMARY))
-                        route.setWeight(dragDelta.weight + round((mouseEvent.getSceneX() - dragDelta.x) / 10 * 100) / 100 - round((mouseEvent.getSceneY() - dragDelta.y) / 10 * 100) / 100);
+                        route.setWeight((int)(dragDelta.weight + ((mouseEvent.getSceneX() - dragDelta.x) / 10 ) - (mouseEvent.getSceneY() - dragDelta.y) / 10 ));
                     else if(mouseEvent.getButton().equals(MouseButton.SECONDARY))
-                        route.setWeight(dragDelta.weight + round((mouseEvent.getSceneX() - dragDelta.x) * 100) / 100 - round((mouseEvent.getSceneY() - dragDelta.y) * 100) / 100);
+                        route.setWeight((int)(dragDelta.weight + ((mouseEvent.getSceneX() - dragDelta.x)      ) - (mouseEvent.getSceneY() - dragDelta.y)));
                 }
             }
         });
@@ -341,7 +341,8 @@ public class Controller implements Initializable{
     }
 
     class Delta{
-        double x, y, weight;
+        double x, y;
+        int weight;
         boolean dragStarted = false;
     }
 

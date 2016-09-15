@@ -2,7 +2,6 @@ package Simulation;
 
 import javafx.application.Platform;
 import javafx.scene.control.Label;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
@@ -18,10 +17,10 @@ public class Route implements Comparator<Route>,Comparable<Route>{
     private Line line;
     private Rectangle rec;
     private Label label;
-    private double weight;
+    private int weight;
     public final int routeID;
 
-    public Route(Node n1, Node n2, final Line line, final Rectangle rec, final Label label, double weight) {
+    public Route(Node n1, Node n2, final Line line, final Rectangle rec, final Label label, int weight) {
         if(n1.equals(n2)) throw new RuntimeException("WTF Loop");
         this.n1 = n1;
         this.n2 = n2;
@@ -56,7 +55,7 @@ public class Route implements Comparator<Route>,Comparable<Route>{
     }
 
     @Deprecated
-    public Route(Node n1, Node n2, double weight){
+    public Route(Node n1, Node n2, int weight){
         //this(n1, n2, null, null, null, weight);
         this.n1=n1;this.n2=n2;
         this.weight=weight;
@@ -102,14 +101,14 @@ public class Route implements Comparator<Route>,Comparable<Route>{
         return (n==null||n1.equals(n)||n2.equals(n));
     }
 
-    public void setWeight(double weight) {
+    public void setWeight(int weight) {
         this.weight = weight;
         label.setText(String.valueOf((int)weight));
         rec.setX((x1 + x2) / 2 + n1.getComponent().getWidth() / 2 - rec.getWidth() / 2);
         label.setLayoutX((x1 + x2) / 2 + n1.getComponent().getWidth() / 2 - label.getWidth() / 2);
     }
 
-    public double getWeight() {
+    public int getWeight() {
         return weight;
     }
 
