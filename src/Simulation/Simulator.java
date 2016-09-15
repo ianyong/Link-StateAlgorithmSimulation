@@ -55,8 +55,6 @@ public class Simulator {
                 if(r.has(currNode))nextRoutes.add(r);
             removeRoute(unusedRoutes,currNode,null);
         }
-        ;
-
         return mst;
 
     }
@@ -64,7 +62,6 @@ public class Simulator {
     public Map<Node,ArrayList<Route>> getDijkstraRoute(Node origin){
         System.out.println("New D");
         ArrayList<Route> routes = state.getRoutes();
-        ArrayList<Node> nodes = state.getNodes();
         Map<Node,ArrayList<Route>> map = new HashMap<Node,ArrayList<Route>>();
         ArrayList<Route> unusedRoutes = new ArrayList<Route>(routes);
         ArrayList<Route> nextRoutes = new ArrayList<Route>();
