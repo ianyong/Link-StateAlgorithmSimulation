@@ -114,6 +114,7 @@ public class Controller implements Initializable{
     private void clearAll(){
         map.getChildren().clear();
         state = new State();
+        sim = new Simulator(state);
     }
 
     @FXML
