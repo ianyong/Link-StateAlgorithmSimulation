@@ -22,6 +22,7 @@ import java.util.ResourceBundle;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
+import static java.lang.Math.round;
 
 public class Controller implements Initializable{
 
@@ -237,12 +238,17 @@ public class Controller implements Initializable{
         Label label = new Label();
         label.setStyle("-fx-text-fill: white");
         label.setVisible(false);
+        label.setPickOnBounds(false); //to allow clicks to register with the underlying rectangle
 
         Rectangle rec = new Rectangle();
         rec.setStyle("-fx-fill: #009688");
         rec.widthProperty().bind(label.widthProperty().add(10));
         rec.setHeight(20);
         rec.setVisible(false);
+
+        Route route = new Route(state.getNode(Integer.parseInt(btn1.getText())), state.getNode(Integer.parseInt(btn2.getText())), line, rec, label);
+
+        makeRouteCostEditable(rec, route);
 
         map.getChildren().addAll(line, rec, label);
 
@@ -251,7 +257,35 @@ public class Controller implements Initializable{
         rec.toBack();
         line.toBack();
 
-        state.addRoute(new Route(state.getNode(Integer.parseInt(btn1.getText())), state.getNode(Integer.parseInt(btn2.getText())), line, rec, label));
+        state.addRoute(route);
+    }
+
+    private void makeRouteCostEditable(final javafx.scene.Node node, final Route route){
+        final Delta dragDelta = new Delta();
+        node.setOnMousePressed(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent mouseEvent) {
+                if(edit) {
+                    // record a delta distance for the drag and drop operation.
+                    dragDelta.x = node.getLayoutX() + mouseEvent.getSceneX();
+                    dragDelta.y = node.getLayoutY() + mouseEvent.getSceneY();
+                    dragDelta.weight = route.getWeight();
+                }
+            }
+        });
+        node.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent mouseEvent) {
+                if(edit) {
+                    node.setCursor(Cursor.HAND);
+                }
+            }
+        });
+        node.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent mouseEvent) {
+                if(edit) {
+                    route.setWeight(dragDelta.weight + round((mouseEvent.getSceneX() - dragDelta.x) / 10 * 100) / 100 - round((mouseEvent.getSceneY() - dragDelta.y) * 100) / 100);
+                }
+            }
+        });
     }
 
     private void removeRoute(JFXButton btn1, JFXButton btn2){
@@ -259,7 +293,7 @@ public class Controller implements Initializable{
     }
 
     class Delta{
-        double x, y;
+        double x, y, weight;
         boolean dragStarted = false;
     }
 

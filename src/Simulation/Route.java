@@ -97,6 +97,13 @@ public class Route implements Comparator<Route>,Comparable<Route>{
         return (n==null||n1.equals(n)||n2.equals(n));
     }
 
+    public void setWeight(double weight) {
+        this.weight = weight;
+        label.setText(String.valueOf(weight));
+        rec.setX((x1 + x2) / 2 + n1.getComponent().getWidth() / 2 - rec.getWidth() / 2);
+        label.setLayoutX((x1 + x2) / 2 + n1.getComponent().getWidth() / 2 - label.getWidth() / 2);
+    }
+
     public double getWeight() {
         return weight;
     }
