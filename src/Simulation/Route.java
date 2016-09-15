@@ -29,7 +29,7 @@ public class Route implements Comparator<Route>,Comparable<Route>{
         this.rec = rec;
         this.label = label;
         this.weight = weight;
-        label.setText(String.valueOf(weight));
+        label.setText(String.valueOf((int)weight));
         updateXY();
         routeID = COUNTER++;
         new Thread() { //need to draw UI once then update again to get the right positioning of components
@@ -104,7 +104,7 @@ public class Route implements Comparator<Route>,Comparable<Route>{
 
     public void setWeight(double weight) {
         this.weight = weight;
-        label.setText(String.valueOf(weight));
+        label.setText(String.valueOf((int)weight));
         rec.setX((x1 + x2) / 2 + n1.getComponent().getWidth() / 2 - rec.getWidth() / 2);
         label.setLayoutX((x1 + x2) / 2 + n1.getComponent().getWidth() / 2 - label.getWidth() / 2);
     }
