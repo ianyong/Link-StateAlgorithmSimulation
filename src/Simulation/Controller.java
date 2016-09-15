@@ -238,7 +238,7 @@ public class Controller implements Initializable{
         Label label = new Label();
         label.setStyle("-fx-text-fill: white");
         label.setVisible(false);
-        label.setPickOnBounds(false); //to allow clicks to register with the underlying rectangle
+        label.setMouseTransparent(true); //to allow clicks to register with the underlying rectangle
 
         Rectangle rec = new Rectangle();
         rec.setStyle("-fx-fill: #009688");
