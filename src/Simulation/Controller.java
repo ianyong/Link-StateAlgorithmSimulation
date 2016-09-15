@@ -129,6 +129,7 @@ public class Controller implements Initializable{
             buttonAddNode.setDisable(false);
             buttonClearAll.setDisable(false);
             snackbar.show("Linking disabled", 1000);
+            buttonAddRoute.setText("Add Route");
         }else{
             link = true;
             edit = false;
@@ -136,6 +137,7 @@ public class Controller implements Initializable{
             buttonAddNode.setDisable(true);
             buttonClearAll.setDisable(true);
             snackbar.show("Linking enabled", 1000);
+            buttonAddRoute.setText("  Cancel  ");
         }
     }
 
